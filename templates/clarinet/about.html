@@ -1,0 +1,81 @@
+{% extends "clarinet/base.html" %}
+
+{% block title %}Biography — {{ artist.name }}, Clarinettist{% endblock %}
+{% block description %}Biography, training and repertoire of {{ artist.name }}, clarinettist based in {{ artist.location }}.{% endblock %}
+{% block og_title %}Biography — {{ artist.name }}{% endblock %}
+{% block og_description %}Concert, chamber and session clarinettist — training, repertoire and press.{% endblock %}
+
+{% block content %}
+<div class="container-xl py-5">
+  <p class="eyebrow">Biography</p>
+  <h1 class="mt-3" style="font-size: clamp(2.4rem, 6vw, 3.8rem);">A voice built on breath</h1>
+
+  <div class="row g-5 mt-1">
+    <div class="col-lg-8">
+      {% for para in artist.bio %}
+      <p class="lede">{{ para }}</p>
+      {% endfor %}
+    </div>
+    <div class="col-lg-4">
+      <div class="panel p-4">
+        <p class="eyebrow">At a glance</p>
+        <dl class="stat-list mt-3 mb-0">
+          {% for label, value in artist.stats %}
+          <div class="mb-3">
+            <dt>{{ label }}</dt>
+            <dd>{{ value }}</dd>
+          </div>
+          {% endfor %}
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <p class="eyebrow">Training</p>
+    <div class="row g-4 mt-1">
+      {% for t in training %}
+      <div class="col-md-4">
+        <div class="panel p-4">
+          <p class="eyebrow" style="color: var(--muted);">{{ t.period }}</p>
+          <h2 class="mt-2" style="font-size: 1.35rem;">{{ t.title }}</h2>
+          <p class="text-muted-soft mb-1">{{ t.org }}</p>
+          <p class="text-muted-soft mb-0" style="font-size: 0.9rem;">{{ t.detail }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="eyebrow">Repertoire</p>
+    <h2 class="mt-2" style="font-size: 2.2rem;">Selected works</h2>
+    <div class="row g-4 mt-1">
+      {% for group in repertoire %}
+      <div class="col-md-6">
+        <div class="panel p-4">
+          <h3 class="brass" style="font-size: 1.2rem;">{{ group.period }}</h3>
+          <ul class="rep-list mt-3">
+            {% for w in group.works %}<li>{{ w }}</li>{% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- <section class="section">
+    <p class="eyebrow">Press</p>
+    <div class="row g-4 mt-1">
+      {% for q in press %}
+      <div class="col-lg-4">
+        <div class="panel p-4">
+          <p class="quote">“{{ q.quote }}”</p>
+          <p class="eyebrow mt-3" style="color: var(--muted);">{{ q.source }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section> -->
+</div>
+{% endblock %}

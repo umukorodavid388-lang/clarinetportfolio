@@ -1,0 +1,108 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}{{ artist.name }} — Clarinettist{% endblock %}</title>
+  <meta name="description" content="{% block description %}{{ artist.tagline }} Recitals, concerti, chamber music, session recording and teaching, based in {{ artist.location }}.{% endblock %}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{% block og_title %}{{ artist.name }} — Clarinettist{% endblock %}" />
+  <meta property="og:description" content="{% block og_description %}{{ artist.tagline }}{% endblock %}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" />
+  <script>
+    (function () {
+      try { if (localStorage.getItem("theme") === "light") document.documentElement.classList.add("light"); } catch (e) {}
+    })();
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"MusicGroup","name":"{{ artist.name }}","genre":"Classical","description":"{{ artist.tagline }}","email":"{{ artist.email }}","address":{"@type":"PostalAddress","addressLocality":"{{ artist.location }}"}}
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container-xl d-flex align-items-center justify-content-between py-3">
+      <a class="brand-mark" href="{% url 'home' %}">{{ artist.name }}<small>Clarinettist</small></a>
+
+      <nav class="d-none d-lg-flex align-items-center gap-4">
+        <a class="nav-link-custom {% if active == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+        <a class="nav-link-custom {% if active == 'about' %}active{% endif %}" href="{% url 'about' %}">Biography</a>
+        <a class="nav-link-custom {% if active == 'performances' %}active{% endif %}" href="{% url 'performances' %}">Performances</a>
+        <!-- <a class="nav-link-custom {% if active == 'media' %}active{% endif %}" href="{% url 'media' %}">Listen</a> -->
+        <a class="nav-link-custom {% if active == 'services' %}active{% endif %}" href="{% url 'services' %}">Services</a>
+        <a class="nav-link-custom {% if active == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Booking</a>
+      </nav>
+
+      <div class="d-flex align-items-center gap-2">
+        <button class="icon-btn" type="button" id="themeToggle" aria-label="Toggle colour theme">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/></svg>
+        </button>
+        <a class="btn-brass d-none d-sm-inline-flex" href="{% url 'contact' %}">Book a date</a>
+      </div>
+    </div>
+
+    <nav class="d-lg-none" style="border-top: 1px solid var(--border);">
+      <div class="container-xl d-flex gap-3 overflow-auto py-2">
+        <a class="nav-link-custom {% if active == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+        <a class="nav-link-custom {% if active == 'about' %}active{% endif %}" href="{% url 'about' %}">Biography</a>
+        <a class="nav-link-custom {% if active == 'performances' %}active{% endif %}" href="{% url 'performances' %}">Performances</a>
+        <a class="nav-link-custom {% if active == 'media' %}active{% endif %}" href="{% url 'media' %}">Listen</a>
+        <a class="nav-link-custom {% if active == 'services' %}active{% endif %}" href="{% url 'services' %}">Services</a>
+        <a class="nav-link-custom {% if active == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Booking</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="site-footer">
+    <div class="container-xl py-5">
+      <div class="row g-4 align-items-start">
+        <!-- <div class="col-lg-5">
+          <p class="eyebrow">Newsletter</p>
+          <p class="mt-2 mb-3">Concert dates and new recordings, a few times a year.</p>
+          <form id="newsletterForm" action="{% url 'newsletter' %}" method="post" class="d-flex gap-2 flex-wrap">
+            {% csrf_token %}
+            <input type="email" name="email" required placeholder="you@example.com" class="form-control" style="max-width: 260px;" aria-label="Email address" />
+            <button type="submit" class="btn-outline-brass">Subscribe</button>
+          </form>
+          <div id="newsletterStatus" hidden></div>
+        </div> -->
+        <div class="col-lg-6">
+          <p class="eyebrow">Contact</p>
+          <p class="mt-2 mb-1"><a href="mailto:{{ artist.email }}">{{ artist.email }}</a></p>
+          <p class="mb-1">{{ artist.phone }}</p>
+          <p class="mb-0">{{ artist.location }}</p>
+        </div>
+        <div class="col-lg-6">
+          <p class="eyebrow">Follow</p>
+          <div class="d-flex align-items-center gap-2 mt-2">
+            <a class="icon-btn" href="{{ artist.instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+            </a>
+            <a class="icon-btn" href="{{ artist.youtube }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.5-.45-5.17a3 3 0 0 0-2.12-2.12C18.76 4.25 12 4.25 12 4.25s-6.76 0-8.43.46A3 3 0 0 0 1.45 6.83C1 8.5 1 12 1 12s0 3.5.45 5.17a3 3 0 0 0 2.12 2.12c1.67.46 8.43.46 8.43.46s6.76 0 8.43-.46a3 3 0 0 0 2.12-2.12C23 15.5 23 12 23 12zM9.75 15.02V8.98L15.5 12z"/></svg>
+            </a>
+            <a class="icon-btn" href="mailto:{{ artist.email }}" aria-label="Email">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+            </a>
+          </div>
+          <a class="d-inline-block mt-3 eyebrow" href="{{ epk_url }}" download>Download CV ↓</a>
+        </div>
+      </div>
+      <hr class="rule my-4" />
+      <p class="mb-0">© {% now "Y" %} {{ artist.name }} · {{ artist.role }}</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.bundle.min.css' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

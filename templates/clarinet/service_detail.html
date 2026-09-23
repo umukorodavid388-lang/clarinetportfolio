@@ -1,0 +1,47 @@
+{% extends "clarinet/base.html" %}
+
+{% block title %}{{ service.title }} — {{ artist.name }}{% endblock %}
+{% block description %}{{ service.tagline }} Booking clarinettist {{ artist.name }} in {{ artist.location }}.{% endblock %}
+{% block og_title %}{{ service.title }} — {{ artist.name }}{% endblock %}
+{% block og_description %}{{ service.tagline }}{% endblock %}
+
+{% block content %}
+<div class="container-xl py-5">
+  <a class="eyebrow" href="{% url 'services' %}">← All services</a>
+  <h1 class="mt-3" style="font-size: clamp(2.2rem, 5.5vw, 3.4rem);">{{ service.title }}</h1>
+  <p class="lede mt-3" style="max-width: 40rem;">{{ service.tagline }}</p>
+
+  <div class="row g-5 mt-1">
+    <div class="col-lg-8">
+      <p class="lede">{{ service.summary }}</p>
+      <h2 class="mt-5" style="font-size: 1.6rem;">What's included</h2>
+      <ul class="rep-list mt-3">
+        {% for item in service.includes %}<li>{{ item }}</li>{% endfor %}
+      </ul>
+    </div>
+    <div class="col-lg-4">
+      <div class="panel p-4">
+        <p class="eyebrow">Ideal for</p>
+        <p class="mt-2">{{ service.ideal_for }}</p>
+        <hr class="rule my-4" />
+        <p class="text-muted-soft" style="font-size: 0.9rem;">Fees depend on date, travel and programme length. Send the details and I'll quote quickly.</p>
+        <a class="btn-brass mt-2 w-100 justify-content-center" href="{% url 'contact' %}">Enquire about this</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <p class="eyebrow">Also available</p>
+    <div class="row g-4 mt-1">
+      {% for s in others %}
+      <div class="col-md-4">
+        <a class="panel d-block p-4 h-100" href="{% url 'service_detail' s.slug %}">
+          <h3 style="font-size: 1.25rem;">{{ s.title }}</h3>
+          <p class="text-muted-soft mb-0 mt-2" style="font-size: 0.92rem;">{{ s.tagline }}</p>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock %}

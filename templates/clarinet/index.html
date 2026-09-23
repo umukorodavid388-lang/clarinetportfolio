@@ -1,0 +1,137 @@
+{% extends "clarinet/base.html" %}{% load static %}
+
+{% block content %}
+<section class="hero">
+  <div class="container-xl py-5">
+    <div class="row align-items-center g-5 py-4">
+      <div class="col-lg-7">
+        <p class="eyebrow">{{ artist.role }}</p>
+        <h1 class="hero-title mt-3">{{ artist.name }}</h1>
+        <p class="lede mt-4" style="max-width: 34rem;">{{ artist.tagline }}</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a class="btn-brass" href="{% url 'contact' %}">Book a performance</a>
+          <!-- <a class="btn-outline-brass" href="{% url 'media' %}">Listen</a> -->
+          <a class="btn-outline-brass" href="{{ epk_url }}" download>Download CV</a>
+        </div>
+        <dl class="stat-list row g-4 mt-4 pt-4" style="border-top: 1px solid var(--border);">
+          {% for label, value in artist.stats %}
+          <div class="col-6 col-md-3">
+            <dt>{{ label }}</dt>
+            <dd>{{ value }}</dd>
+          </div>
+          {% endfor %}
+        </dl>
+      </div>
+      <div class="col-lg-5">
+        <img class="hero-portrait" src="{% static 'img/davispics.jpg' %}" alt="{{ artist.name }}, clarinettist, holding her clarinet" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container-xl">
+    <div class="row g-4 text-center reveal">
+      {% for h in highlights %}
+      <div class="col-6 col-lg-3">
+        <p class="stat-big brass mb-1">{{ h.value }}</p>
+        <p class="eyebrow" style="color: var(--muted);">{{ h.label }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container-xl reveal">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3">
+      <div>
+        <p class="eyebrow">Upcoming</p>
+        <h2 class="mt-2 mb-0" style="font-size: 2.4rem;">Next on stage</h2>
+      </div>
+      <a class="eyebrow" href="{% url 'performances' %}">Full calendar →</a>
+    </div>
+    <div class="mt-4">
+      {% for p in upcoming %}
+      <article class="gig">
+        <div class="gig-date">{{ p.date }}</div>
+        <div>
+          <h3>{{ p.title }}</h3>
+          <p class="text-muted-soft mb-1">{{ p.role }} · {{ p.ensemble }}</p>
+          <p class="text-muted-soft mb-0">{{ p.venue }}</p>
+        </div>
+        <!-- <div>{% if p.ticket_url %}<a class="btn-outline-brass" href="{{ p.ticket_url }}">Tickets</a>{% endif %}</div> -->
+      </article>
+      {% empty %}
+      <p class="text-muted-soft">No dates announced right now — please check back soon.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container-xl reveal">
+    <div class="d-flex flex-wrap justify-content-between align-items-end gap-3">
+      <div>
+        <p class="eyebrow">Engagements</p>
+        <h2 class="mt-2 mb-0" style="font-size: 2.4rem;">How we can work together</h2>
+      </div>
+      <a class="eyebrow" href="{% url 'services' %}">All services →</a>
+    </div>
+    <div class="row g-4 mt-1">
+      {% for s in services %}
+      <div class="col-md-6 col-lg-4">
+        <a class="panel d-block p-4" href="{% url 'service_detail' s.slug %}">
+          <h3 style="font-size: 1.4rem;">{{ s.title }}</h3>
+          <p class="text-muted-soft mb-0 mt-2" style="font-size: 0.95rem;">{{ s.tagline }}</p>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- <section class="section">
+  <div class="container-xl reveal">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6">
+        <img src="{% static 'img/clarinet.jpg' %}" alt="Clarinet resting on sheet music on a darkened stage" class="img-fluid" loading="lazy" width="1600" height="900" style="border: 1px solid var(--border);" />
+      </div>
+      <div class="col-lg-6">
+        <p class="eyebrow">Listen</p>
+        <h2 class="mt-2" style="font-size: 2.4rem;">Selected recordings</h2>
+        <ul class="rep-list mt-3">
+          {% for r in recordings %}
+          <li><a href="{{ r.url }}">{{ r.title }}</a> — <span class="text-muted-soft">{{ r.kind }}, {{ r.year }}</span></li>
+          {% endfor %}
+        </ul>
+        <a class="btn-outline-brass mt-4" href="{% url 'media' %}">All recordings</a>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- <section class="section">
+  <div class="container-xl reveal">
+    <p class="eyebrow">Press</p>
+    <div class="row g-4 mt-1">
+      {% for q in press %}
+      <div class="col-lg-4">
+        <div class="panel p-4">
+          <p class="quote">“{{ q.quote }}”</p>
+          <p class="eyebrow mt-3" style="color: var(--muted);">{{ q.source }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section> -->
+
+<section class="section">
+  <div class="container-xl text-center reveal py-4">
+    <h2 style="font-size: 2.6rem;">Planning a concert, session or class?</h2>
+    <p class="lede mt-3 mx-auto" style="max-width: 34rem;">Tell me the date, the venue and the mood — I will come back to you within 24hours.</p>
+    <a class="btn-brass mt-4" href="{% url 'contact' %}">Start a booking enquiry</a>
+  </div>
+</section>
+{% endblock %}
