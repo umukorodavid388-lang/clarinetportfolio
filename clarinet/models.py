@@ -9,7 +9,7 @@ class BookingRequest(models.Model):
         ("concerto", "Concerto / orchestral soloist"),
         ("chamber", "Chamber music"),
         ("session", "Studio / session recording"),
-        ("wedding", "Wedding or private event"),
+        ("orchestra", "Orchestra / orchestral clarinetist"),
         ("masterclass", "Masterclass / teaching"),
         ("other", "Other"),
     ]

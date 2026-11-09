@@ -126,7 +126,7 @@ def newsletter(request):
 
 def _notify_owner(booking):
     """Email the artist whenever a new booking enquiry arrives."""
-    recipient = getattr(settings, "EMAIL_HOST_USER", None)
+    recipient = settings.NOTIFY_EMAIL
     if not recipient:
         return
 
@@ -140,9 +140,9 @@ def _notify_owner(booking):
         f"Email:        {booking.email}\n"
         f"Organisation: {booking.organisation or '—'}\n"
         f"Engagement:   {engagement}\n"
-        f"Date:         {booking.event_date.strftime('%-d %B %Y') if booking.event_date else 'not specified'}\n"
+        f"Date:         {booking.event_date.strftime('%d %B %Y') if booking.event_date else 'not specified'}\n"
         f"Venue:        {booking.venue or '—'}\n"
-        f"Received:     {booking.created_at:%-d %B %Y, %H:%M}\n\n"
+        f"Received:     {booking.created_at:%d %B %Y, %H:%M}\n\n"
         f"{booking.message}\n"
     )
 
@@ -162,7 +162,7 @@ def _notify_owner(booking):
         row("Engagement", engagement),
         row("Date", booking.event_date.strftime("%d %B %Y").lstrip("0") if booking.event_date else "Not specified"),
         row("Venue", booking.venue or "—"),
-        row("Received", f"{booking.created_at:%-d %B %Y, %H:%M}"),
+        row("Received", f"{booking.created_at:%d %B %Y, %H:%M}"),
     ])
 
     html_body = f"""
@@ -207,9 +207,9 @@ def _notify_owner(booking):
     msg = EmailMultiAlternatives(
         subject=subject,
         body=text_body,
-        from_email=getattr(settings, "EMAIL_HOST_USER", recipient),
+        from_email=settings.DEFAULT_FROM_EMAIL,
         to=[recipient],
         reply_to=[booking.email],
     )
     msg.attach_alternative(html_body, "text/html")
-    msg.send(fail_silently=True)
+    msg.send()

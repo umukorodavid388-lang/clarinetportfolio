@@ -69,7 +69,7 @@ PERFORMANCES = [
         "role": "Clarinetist",
         "ensemble": "MUSON Diploma Opera & Orchestra",
         "venue": "Agip Recital Hall, MUSON Centre, Onikan, Lagos",
-        "status": "upcoming",
+        "status": "past",
         "ticket_url": "#",
         "programme": [
             {

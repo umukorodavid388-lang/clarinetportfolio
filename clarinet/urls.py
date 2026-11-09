@@ -15,5 +15,3 @@ urlpatterns = [
 ]
 
 
-# TOKEN = "8654738716:AAFaWX49wg7xny1BL1Dt5iATLxjoibL1lVk"
-# CHAT_ID = "872804618"

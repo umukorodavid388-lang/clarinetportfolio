@@ -39,19 +39,18 @@ and every page updates.
 
 ## Email notifications
 
-By default emails print to the terminal (console backend). For real email, edit
-`config/settings.py`:
+Booking notifications are sent through Brevo using Django's configured Anymail
+backend. Set these environment variables before starting the application:
 
-```python
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "you@example.com"
-EMAIL_HOST_PASSWORD = "your-app-password"
-DEFAULT_FROM_EMAIL = "you@example.com"
-NOTIFY_EMAIL = "you@example.com"
+```text
+BREVO_API_KEY=your-brevo-v3-api-key
+DEFAULT_FROM_EMAIL=you@example.com
+NOTIFY_EMAIL=you@example.com
 ```
+
+`DEFAULT_FROM_EMAIL` must be a sender address verified with Brevo. `NOTIFY_EMAIL`
+is the inbox that receives booking enquiries; it defaults to
+`DEFAULT_FROM_EMAIL` if omitted.
 
 ## Deployment notes
 

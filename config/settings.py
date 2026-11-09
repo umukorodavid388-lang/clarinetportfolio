@@ -1,4 +1,9 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,6 +18,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "anymail",
     "clarinet",
 ]
 
@@ -65,14 +71,9 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Booking / contact notifications
-# CONTACT_NOTIFY_EMAIL = "davidogheneothuke42@gmail.com"
-# DEFAULT_FROM_EMAIL = "davidogheneothuke42@gmail.com"
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# Production SMTP example:
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "davidogheneothuke42@gmail.com"
-EMAIL_HOST_PASSWORD = "qgmoqmiotfttvipu"
+EMAIL_BACKEND = "anymail.backends.brevo.EmailBackend"
+ANYMAIL = {
+    "BREVO_API_KEY": os.environ.get("BREVO_API_KEY"),
+}
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "davidogheneothuke42@gmail.com")
+NOTIFY_EMAIL = os.environ.get("NOTIFY_EMAIL", DEFAULT_FROM_EMAIL)
