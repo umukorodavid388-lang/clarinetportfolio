@@ -11,7 +11,7 @@
         <div class="d-flex flex-wrap gap-3 mt-4">
           <a class="btn-brass" href="{% url 'contact' %}">Book a performance</a>
           <!-- <a class="btn-outline-brass" href="{% url 'media' %}">Listen</a> -->
-          <a class="btn-outline-brass" href="{{ epk_url }}" download>Download CV</a>
+          <a class="btn-outline-brass" href="{{ epk_url }}" disabled download>Download CV</a>
         </div>
         <dl class="stat-list row g-4 mt-4 pt-4" style="border-top: 1px solid var(--border);">
           {% for label, value in artist.stats %}
