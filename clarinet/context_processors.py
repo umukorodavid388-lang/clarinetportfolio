@@ -7,5 +7,5 @@ from . import data
 def site(request):
     return {
         "artist": data.ARTIST,
-        "epk_url": static("files/press-kit.pdf"),
+        "epk_url": static("files/Umukoroteachingp.pdf"),
     }
