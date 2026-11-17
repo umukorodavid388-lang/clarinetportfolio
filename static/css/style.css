@@ -391,6 +391,7 @@ a.panel:hover, .panel.hoverable:hover {
   font-size: 0.72rem;
   line-height: 1.3;
 }
+.calendar-booking-venue { display: block; color: var(--muted); }
 .calendar-remove-form { margin-top: 0.25rem; }
 .calendar-remove-button {
   padding: 0;

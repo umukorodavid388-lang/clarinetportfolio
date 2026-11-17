@@ -16,6 +16,7 @@ class BookingCalendarTests(TestCase):
         BookingRequest.objects.create(
             name="Private Booker",
             email="booker@example.com",
+            organisation="Private Organization",
             engagement_type="recital",
             event_date=date(2026, 6, 15),
             venue="Concert Hall",
@@ -27,10 +28,11 @@ class BookingCalendarTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "June 2026")
         self.assertContains(response, "15")
-        self.assertContains(response, "Booked")
+        self.assertContains(response, "Solo recital")
+        self.assertContains(response, "Concert Hall")
         self.assertNotContains(response, "Sign in to manage booking dates")
         self.assertNotContains(response, "Remove date")
-        self.assertNotContains(response, "Concert Hall")
+        self.assertNotContains(response, "Private Organization")
         self.assertNotContains(response, "Private Booker")
         self.assertNotContains(response, "booker@example.com")
         self.assertNotContains(response, "private booking enquiry message")

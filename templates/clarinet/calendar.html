@@ -51,7 +51,12 @@
                 <td class="{% if not day.in_month %}calendar-day-outside{% endif %}{% if day.bookings %} calendar-day-booked{% endif %}">
                   <time class="calendar-day-number" datetime="{{ day.date|date:'Y-m-d' }}">{{ day.date.day }}</time>
                   {% for booking in day.bookings %}
-                    <span class="calendar-booking" aria-label="Booking request">Booked</span>
+                    <span class="calendar-booking" aria-label="Booking request">
+                      {{ booking.get_engagement_type_display }}
+                      {% if booking.venue %}
+                        <span class="calendar-booking-venue">{{ booking.venue }}</span>
+                      {% endif %}
+                    </span>
                     {% if request.user.is_staff %}
                       <form method="post" action="{% url 'remove_calendar_booking_date' booking.id %}" class="calendar-remove-form">
                         {% csrf_token %}
