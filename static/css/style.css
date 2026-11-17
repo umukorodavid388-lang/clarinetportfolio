@@ -358,8 +358,6 @@ a.panel:hover, .panel.hoverable:hover {
 }
 .calendar-heading > :last-child { justify-self: end; }
 .calendar-month { font-size: clamp(1.7rem, 4vw, 2.5rem); text-align: center; }
-.calendar-admin-note { margin-top: 1rem; color: var(--muted); font-size: 0.9rem; }
-.calendar-admin-note a { color: var(--brass); text-decoration: underline; }
 .calendar-table-wrap { overflow-x: auto; border: 1px solid var(--border); }
 .calendar-table { width: 100%; min-width: 600px; border-collapse: collapse; table-layout: fixed; }
 .calendar-table th {

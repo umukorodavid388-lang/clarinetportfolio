@@ -13,14 +13,6 @@
     Dates with booking requests are marked below.
   </p>
 
-  {% if request.user.is_staff %}
-    <p class="calendar-admin-note">You are signed in as an administrator. You can remove a date from the calendar below.</p>
-  {% else %}
-    <p class="calendar-admin-note">
-      <a href="{% url 'admin:login' %}?next={% url 'calendar' %}">Sign in to manage booking dates</a>
-    </p>
-  {% endif %}
-
   {% if messages %}
     {% for message in messages %}
       <p class="alert-soft ok" role="status">{{ message }}</p>
