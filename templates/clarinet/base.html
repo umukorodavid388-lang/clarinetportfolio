@@ -30,9 +30,10 @@
       <a class="brand-mark" href="{% url 'home' %}">{{ artist.name }}<small>Clarinettist</small></a>
 
       <nav class="d-none d-lg-flex align-items-center gap-4">
-        <a class="nav-link-custom {% if active == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+        <a class="nav-link-cus tom {% if active == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
         <a class="nav-link-custom {% if active == 'about' %}active{% endif %}" href="{% url 'about' %}">Biography</a>
         <a class="nav-link-custom {% if active == 'performances' %}active{% endif %}" href="{% url 'performances' %}">Performances</a>
+        <a class="nav-link-custom {% if active == 'calendar' %}active{% endif %}" href="{% url 'calendar' %}">Calendar</a>
         <!-- <a class="nav-link-custom {% if active == 'media' %}active{% endif %}" href="{% url 'media' %}">Listen</a> -->
         <a class="nav-link-custom {% if active == 'services' %}active{% endif %}" href="{% url 'services' %}">Services</a>
         <a class="nav-link-custom {% if active == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Booking</a>
@@ -51,6 +52,7 @@
         <a class="nav-link-custom {% if active == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
         <a class="nav-link-custom {% if active == 'about' %}active{% endif %}" href="{% url 'about' %}">Biography</a>
         <a class="nav-link-custom {% if active == 'performances' %}active{% endif %}" href="{% url 'performances' %}">Performances</a>
+        <a class="nav-link-custom {% if active == 'calendar' %}active{% endif %}" href="{% url 'calendar' %}">Calendar</a>
         <a class="nav-link-custom {% if active == 'media' %}active{% endif %}" href="{% url 'media' %}">Listen</a>
         <a class="nav-link-custom {% if active == 'services' %}active{% endif %}" href="{% url 'services' %}">Services</a>
         <a class="nav-link-custom {% if active == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Booking</a>

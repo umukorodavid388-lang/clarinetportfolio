@@ -1,10 +1,19 @@
+import calendar as month_calendar
+from datetime import date
+
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.core.mail import send_mail
 from django.http import Http404, JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
+from django.utils import timezone
+from django.views.decorators.http import require_POST
 
 from . import data
 from .forms import BookingForm, NewsletterForm
+from .models import BookingRequest
 
 from django.core.mail import EmailMultiAlternatives
 from django.utils.html import escape
@@ -40,6 +49,79 @@ def performances(request):
         "upcoming": [p for p in data.PERFORMANCES if p["status"] == "upcoming"],
         "past": [p for p in data.PERFORMANCES if p["status"] == "past"],
     })
+
+
+def booking_calendar(request):
+    today = timezone.localdate()
+    year_value = request.GET.get("year")
+    month_value = request.GET.get("month")
+
+    if (year_value is None) != (month_value is None):
+        raise Http404("A year and month must be provided together.")
+
+    try:
+        year = int(year_value) if year_value is not None else today.year
+        month = int(month_value) if month_value is not None else today.month
+        month_start = date(year, month, 1)
+    except (TypeError, ValueError):
+        raise Http404("Invalid calendar month.")
+
+    month_end = date(year, month, month_calendar.monthrange(year, month)[1])
+    bookings_by_date = {}
+    bookings = BookingRequest.objects.filter(
+        event_date__range=(month_start, month_end),
+    ).order_by("event_date", "created_at")
+    for booking in bookings:
+        bookings_by_date.setdefault(booking.event_date, []).append(booking)
+
+    weeks = [
+        [
+            {
+                "date": day,
+                "in_month": day.month == month,
+                "bookings": bookings_by_date.get(day, []),
+            }
+            for day in week
+        ]
+        for week in month_calendar.Calendar().monthdatescalendar(year, month)
+    ]
+
+    previous_month = None
+    next_month = None
+    if month == 1:
+        if year > 1:
+            previous_month = {"year": year - 1, "month": 12}
+    else:
+        previous_month = {"year": year, "month": month - 1}
+
+    if month == 12:
+        if year < 9999:
+            next_month = {"year": year + 1, "month": 1}
+    else:
+        next_month = {"year": year, "month": month + 1}
+
+    return render(request, "clarinet/calendar.html", {
+        "active": "calendar",
+        "month_label": month_start.strftime("%B %Y"),
+        "weekdays": list(month_calendar.day_abbr),
+        "weeks": weeks,
+        "previous_month": previous_month,
+        "next_month": next_month,
+    })
+
+
+@staff_member_required
+@require_POST
+def remove_calendar_booking_date(request, booking_id):
+    booking = get_object_or_404(
+        BookingRequest.objects.exclude(event_date__isnull=True),
+        pk=booking_id,
+    )
+    event_date = booking.event_date
+    booking.event_date = None
+    booking.save(update_fields=("event_date",))
+    messages.success(request, "The booking date was removed from the calendar.")
+    return redirect(f"{reverse('calendar')}?year={event_date.year}&month={event_date.month}")
 
 
 def media(request):

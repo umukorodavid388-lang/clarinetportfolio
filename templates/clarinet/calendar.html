@@ -1,0 +1,80 @@
+{% extends "clarinet/base.html" %}
+
+{% block title %}Booking Calendar — {{ artist.name }}{% endblock %}
+{% block description %}View dates with booking requests for clarinettist {{ artist.name }}.{% endblock %}
+{% block og_title %}Booking Calendar — {{ artist.name }}{% endblock %}
+{% block og_description %}Dates with booking requests for {{ artist.name }}.{% endblock %}
+
+{% block content %}
+<div class="container-xl py-5">
+  <p class="eyebrow">Booking calendar</p>
+  <h1 class="mt-3" style="font-size: clamp(2.4rem, 6vw, 3.8rem);">Show dates</h1>
+  <p class="lede mt-3" style="max-width: 38rem;">
+    Dates with booking requests are marked below.
+  </p>
+
+  {% if request.user.is_staff %}
+    <p class="calendar-admin-note">You are signed in as an administrator. You can remove a date from the calendar below.</p>
+  {% else %}
+    <p class="calendar-admin-note">
+      <a href="{% url 'admin:login' %}?next={% url 'calendar' %}">Sign in to manage booking dates</a>
+    </p>
+  {% endif %}
+
+  {% if messages %}
+    {% for message in messages %}
+      <p class="alert-soft ok" role="status">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <section class="section" aria-label="Booking dates by month">
+    <div class="calendar-heading">
+      {% if previous_month %}
+        <a class="btn-outline-brass" href="{% url 'calendar' %}?year={{ previous_month.year }}&amp;month={{ previous_month.month }}" aria-label="Previous month">← Previous</a>
+      {% else %}
+        <span></span>
+      {% endif %}
+      <h2 class="calendar-month mb-0">{{ month_label }}</h2>
+      {% if next_month %}
+        <a class="btn-outline-brass" href="{% url 'calendar' %}?year={{ next_month.year }}&amp;month={{ next_month.month }}" aria-label="Next month">Next →</a>
+      {% else %}
+        <span></span>
+      {% endif %}
+    </div>
+
+    <div class="calendar-table-wrap">
+      <table class="calendar-table">
+        <caption class="visually-hidden">Booking requests for {{ month_label }}</caption>
+        <thead>
+          <tr>
+            {% for weekday in weekdays %}
+              <th scope="col">{{ weekday }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for week in weeks %}
+            <tr>
+              {% for day in week %}
+                <td class="{% if not day.in_month %}calendar-day-outside{% endif %}{% if day.bookings %} calendar-day-booked{% endif %}">
+                  <time class="calendar-day-number" datetime="{{ day.date|date:'Y-m-d' }}">{{ day.date.day }}</time>
+                  {% for booking in day.bookings %}
+                    <span class="calendar-booking" aria-label="Booking request">Booked</span>
+                    {% if request.user.is_staff %}
+                      <form method="post" action="{% url 'remove_calendar_booking_date' booking.id %}" class="calendar-remove-form">
+                        {% csrf_token %}
+                        <button class="calendar-remove-button" type="submit">Remove date</button>
+                      </form>
+                    {% endif %}
+                  {% endfor %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <p class="text-muted-soft mt-3 mb-0"><span class="calendar-legend-dot" aria-hidden="true"></span> Booking request</p>
+  </section>
+</div>
+{% endblock %}

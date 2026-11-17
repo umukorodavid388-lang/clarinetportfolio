@@ -4,10 +4,11 @@ A Django-powered performance portfolio for a clarinettist, with an HTML / CSS / 
 
 ## What's inside
 
-- Pages: Home, Biography, Performances, Listen (media), Services, Service detail, Booking & Contact
+- Pages: Home, Biography, Performances, Booking Calendar, Listen (media), Services, Service detail, Booking & Contact
 - Light/dark theme toggle (saved in the browser)
 - Scroll-reveal animations, responsive Bootstrap layout
 - Booking request form (AJAX) saved to the database + email notification
+- Booking calendar showing dated booking requests month by month
 - Newsletter signup (AJAX)
 - Django admin for booking requests and newsletter signups
 
