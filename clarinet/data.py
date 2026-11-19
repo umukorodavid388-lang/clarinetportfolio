@@ -4,7 +4,7 @@ ARTIST = {
     "name": "Umukoro David Ogheneothuke",
     "role": "Clarinettist — Soloist, Chamber & Session Musician",
     "tagline": "A warm, singing clarinet voice across classical.",
-    "location": "Lagos, Nigeria",
+    "location": "Lagos, Nigeria",  
     "email": "davidogheneothuke42@gmail.com",
     "phone": "+234 0916 032 9375",
     "instagram": "https://www.instagram.com/clari_davis",
